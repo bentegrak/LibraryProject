@@ -27,6 +27,58 @@ typedef struct{
 	int kitapDurumu;
 }kitapBilgileri;
 
+int kisiSorgula(kisiBilgileri*uyeListesi,int ID){
+	int i;
+	for(i=0;i<MAX_KISI_SAYISI;i++){
+		if(uyeListesi[i].kutuphaneID==ID){
+			return ID;//bu ID daha once kullanildi
+		}
+	}
+	return -1;
+}
+
+int kayitOl(kisiBilgileri*uyeListesi){
+	int i,kayitYapilacakIndex,ID,sifre;
+	char kisiAdi[20],kisiSoyadi[20],ch;
+	for(i=0;i<MAX_KISI_SAYISI;i++){
+		if(uyeListesi[i].kutuphaneID==0){
+			kayitYapilacakIndex=i;
+			break;
+		}
+	}
+	
+	ID=rand()%100000+1;
+	if(kisiSorgula(uyeListesi,ID!=-1)){
+		printf("Bu ID degeri daha once kullanilmistir..Kayit yapilamiyor..\n");
+		exit(1);
+	}
+	
+	printf("ID numaraniz %d olarak belirlenmistir.",ID);
+	uyeListesi[kayitYapilacakIndex].kutuphaneID=ID;
+	
+	printf("Lutfen sirasiyla ad-soyad bilginizi giriniz:");
+	scanf("%s%s",&kisiAdi,&kisiSoyadi);
+	
+	uyeListesi[kayitYapilacakIndex].kisiAdi=(char*)malloc(sizeof(char)*(strlen(kisiAdi)+1));
+	uyeListesi[kayitYapilacakIndex].kisiSoyadi=(char*)malloc(sizeof(char)*(strlen(kisiSoyadi)+1));
+	strcpy(uyeListesi[kayitYapilacakIndex].kisiAdi,kisiAdi);
+	strcpy(uyeListesi[kayitYapilacakIndex].kisiSoyadi,kisiSoyadi);
+	
+	printf("Lutfen ogrenciyseniz '0'calisansaniz 'C'giriniz:");
+	fflush(stdin);
+	ch=getchar();
+	if(ch=='0'){
+		uyeListesi[kayitYapilacakIndex].kisiYetkisi=ogrenci;
+	}
+	else{
+		uyeListesi[kayitYapilacakIndex].kisiYetkisi=calisan;
+	}
+	printf("Lutfen sifrenizi giriniz:");
+	scanf("%d",&uyeListesi[kayitYapilacakIndex].sifre);
+	
+	return uyeListesi[kayitYapilacakIndex].kisiYetkisi;
+}
+
 int main(void){
 	kitapBilgileri *kitaplik;
 	kisiBilgileri *uyeListesi;
