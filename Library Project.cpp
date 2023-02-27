@@ -79,6 +79,24 @@ int kayitOl(kisiBilgileri*uyeListesi){
 	return uyeListesi[kayitYapilacakIndex].kisiYetkisi;
 }
 
+int girisYap(kisiBilgileri* uyeListesi){
+	int ID,sifre,i;
+	printf("Lutfen kutuphane ID bilginizi giriniz:");
+	scanf("%d",&ID);
+	printf("Lutfen kutuphane sifre bilginizi giriniz:");
+	scanf("%d"&sifre);
+	for(i=0;i<MAX_KISI_SAYISI;i++){
+		if(uyeListesi[i].kutuphaneID==ID){
+			if(uyeListesi[i].sifre==sifre){
+				printf("ID-sifre dogru..Giris basarili.\n");
+				return uyeListesi[i].kisiYetkisi;
+			}
+			return -1;//sifre yanlis girildi.giris basarisiz.
+		}
+	}
+	return -2;//o id degerine ait kimse bulunamadi
+}
+
 int main(void){
 	kitapBilgileri *kitaplik;
 	kisiBilgileri *uyeListesi;
