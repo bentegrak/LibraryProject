@@ -97,6 +97,62 @@ int girisYap(kisiBilgileri* uyeListesi){
 	return -2;//o id degerine ait kimse bulunamadi
 }
 
+void uyeleriAktar(kisiBilgileri *uyeListesi){
+	FILE *uyeKayitlari;
+	int i;
+	char ad[20],soyad[20];
+	
+	uyeKayitlari=fopen("uyeListesi.txt","r");
+	if(uyeKayitlari==NULL){
+		fprintf(stderr,"Uye listesine ulasilirken bir hata meydana geldi.\n");
+		exit(1);
+	}
+	
+	while(!feof(uyeKayitlari)){
+		for(i=0;i<MAX_KISI_SAYISI;i++){
+			if(uyeListesi[i].kutuphaneID==0){
+				fscanf(uyeKayitlari,"%s\t%s\t%d\t%d\n",ad,soyad,&uyeListesi[i].kisiYetkisi,&uyeListesi[i].kutuphaneID,&uyeListesi.sifre);
+				uyeListesi[i].kisiAdi=(char*)malloc(sizeof(char)*(strlen(ad)+1));
+				uyeListesi[i].kisiSoyadi=(char*)malloc(sizeof(char)*(strlen(soyad)+1));
+				strcpy(uyeListesi[i].kisiAdi,ad);
+				strcpy(uyeListesi[i].kisiSoyadi,soyad);
+				break;
+			}
+		}
+	}
+	fclose(uyeKayitlari);
+}
+
+void kitaplariAktar(kitapBilgileri *kitaplik){
+	char kitapAdi[30],yazarAdi[30],yayinEvi[30],yazarSoyadi[30];
+	FILE *kitapKayitlari;
+	int i;
+	
+	kitapKayitlari=fopen("kitapListesi.txt","r");
+	if(kitapKayitlari==NULL){
+		fprintf(stderr,"Kitap listesine ulasilirken bir hata meydana geldi.\n");
+		exit(1);
+	}
+	
+	while(!feof(kitapKayitlari)){
+		for(i=0;i<MAX_KITAP_SAYISI;i++){
+			if(kitaplik[i].sayfaSayisi==0){
+				fscanf(kitapKayitlari,"%ss\t%s\t%s\t%s\t%d\t%d\n",kitapAdi,yayinEvi,yazarAdi,yazarSoyadi,&kitaplik[i].kitapDurumu,&kitaplik[i].sayfaSayisi);
+				kitaplik[i].kitapAdi=(char*)malloc(sizeof(char)*(strlen(kitapAdi)+1));
+				kitaplik[i].kitapYazarAdi=(char*)malloc(sizeof(char)*(strlen(yazarAdi)+1));
+				kitaplik[i].kitapYazarSoyadi=(char*)malloc(sizeof(char)*(strlen(yazarSoyadi)+1));
+				kitaplik[i].yayinEvi=(char*)malloc(sizeof(char)*(strlen(yayinEvi)+1));
+				strcpy(kitaplik[i].kitapAdi,kitapAdi);
+				strcpy(kitaplik[i].kitapYazarAdi,yazarAdi);
+				strcpy(kitaplik[i].kitapYazarSoyadi,yazarSoyadi);
+				strpcy(kitaplik[i].yayinEvi,yayinEvi);
+				break;
+			}
+		}
+	}
+	fclose(kitapKayitlari);
+}
+
 int main(void){
 	kitapBilgileri *kitaplik;
 	kisiBilgileri *uyeListesi;
@@ -107,8 +163,8 @@ int main(void){
 	kitaplik=(kitapBilgileri*)calloc(MAX_KITAP_SAYISI,sizeof(kitapBilgileri));
 	uyeListesi=(kisiBilgileri*)calloc(MAX_KISI_SAYISI,sizeof(kisiBilgileri));
 	
-	//uyeleriAktar(uyeListesi);
-	//kitaplariAktar(kitaplik);
+	uyeleriAktar(uyeListesi);
+	kitaplariAktar(kitaplik);
 	
 	//KAYIT OL,GÝRÝS YAP;
 	printf("\t\tMerhaba,Kutuphane Sistemimize Hosgeldiniz\n");
