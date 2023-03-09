@@ -153,6 +153,40 @@ void kitaplariAktar(kitapBilgileri *kitaplik){
 	fclose(kitapKayitlari);
 }
 
+void kitaplariYedekle(kitapBilgileri *kitaplik){
+	FILE *kitapKayitlari;
+	int i=0;
+	
+	kitapKayitlari=fopen("KitapListesi.txt","w");
+	if(kitapKayitlari==NULL){
+		fprintf(stderr,"Kitap listesine ulasilirken bir hata meydana geldi.\n");
+		exit(1);
+	}
+	
+	while(i<MAX_KITAP_SAYISI && kitaplik[i].sayfaSayisi!=0){
+		fprintf(kitapKayitlari,"%s\t%s\t%s\t%s\t%d\t%d\n",kitaplik[i].kitapAdi,kitaplik[i].yayinEvi,kitaplik[i].kitapYazarAdi,kitaplik[i].kitapYazarSoyadi,kitaplik[i].kitapDurumu,kitaplik[i].sayfaSayisi);
+		i++;
+	}
+	fclose(kitapKayitlari);
+}
+
+void uyeleriYedekle(kisiBilgileri *uyeListesi){
+	FILE *uyeKayitlari;
+	int i=0;
+	
+	uyeKayitlari=fopen("UyeListesi.txt","w");
+	if(uyeKayitlari==NULL){
+		fprintf(stderr,"Uye listesine ulasilirken bir hata meydana geldi.\n");
+		exit(1);
+	}
+	while(i<MAX_KISI_SAYISI && uyeListesi[i].kutuphaneID!=0){
+		fprintf(uyeKayitlari,"%s\t%s\t%d\%d\%d\n",uyeListesi[i].kisiAdi,uyeListesi[i].kisiSoyadi,uyeListesi[i].kisiYetkisi,uyeListesi[i].kutuphaneID,uyeListesi[i].sifre);
+		i++;
+	}
+	fclose(uyeKayitlari);
+}
+
+
 int main(void){
 	kitapBilgileri *kitaplik;
 	kisiBilgileri *uyeListesi;
