@@ -79,6 +79,47 @@ int kayitOl(kisiBilgileri*uyeListesi){
 	return uyeListesi[kayitYapilacakIndex].kisiYetkisi;
 }
 
+void kitaplariGoruntule(kitapBilgileri *kitaplik){
+	int i;
+	for(i=0;MAX_KITAP_SAYISI;i++){
+		if(kitaplik[i].sayfaSayisi!=0){
+			printf("Kitap Adi:%s\n",kitaplik[i].kitapAdi);
+			printf("Kitap Yazari:%s %s\n",kitaplik[i].kitapYazarAdi,kitaplik[i].kitapYazarSoyadi);
+			printf("Kitap Yayinevi:%s\n",kitaplik[i].yayinEvi);
+			printf("Kitap Sayfa Sayisi:%d\n",kitaplik[i].sayfaSayisi);
+			if(kitaplik[i].kitapDurumu==0){
+				printf("Bu kitap su an raftadir.\n");
+			}
+			else{
+				printf("Bu kitap su an baskasi tarafindan alinmistir.\n");
+			}
+		}
+		else{
+			return;
+		}
+	}
+}
+
+void kitapAra(kitapBilgileri *kitaplik){
+	int i=0;
+	char kitapAdi[30];
+	
+	printf("Lutfen aramak istediginiz kitabin adini giriniz:");
+	scanf("%s",&kitapAdi);
+	
+	while(i<MAX_KITAP_SAYISI && kitaplik[i].sayfaSayisi!=0){
+		if(strcmp(kitaplik[i].kitapAdi,kitapAdi)==0){
+			printf("Kitap Adi:%s\n",kitaplik[i].kitapAdi);
+			printf("Kitap Yazari:%s %s\n",kitaplik[i].kitapYazarAdi,kitaplik[i].kitapYazarSoyadi);
+			printf("Kitap Yayinevi:%s\n",kitaplik[i].yayinEvi);
+			printf("Kitap Sayfa Sayisi:%d\n",kitaplik[i].sayfaSayisi);
+			return;	
+		}
+		i++;
+	}
+	printf("Maalesef...Aradiginiz kitap kutuphanemizde bulunmuyor.\n");
+}
+
 int girisYap(kisiBilgileri* uyeListesi){
 	int ID,sifre,i;
 	printf("Lutfen kutuphane ID bilginizi giriniz:");
@@ -187,6 +228,8 @@ void uyeleriYedekle(kisiBilgileri *uyeListesi){
 }
 
 
+
+
 int main(void){
 	kitapBilgileri *kitaplik;
 	kisiBilgileri *uyeListesi;
@@ -262,13 +305,14 @@ int main(void){
 			fflush(stdin);
 			ch=getchar();
 				switch(ch){
-				case 'G':
-				case 'g':
-					kitaplariGoruntule(kitaplik);
+				case 'E':
+				case 'e':
+					kitapEkle(kitaplik);
 					break;
-				case 'A':
-				case 'a':
-					kitapAra(kitaplik);
+				case 'U':
+				case 'u':
+					uyeleriGoruntule(uyeListesi);
+					break;
 				case 'Q':
 				case 'q':	
 					kitaplariYedekle(kitaplik);
