@@ -120,6 +120,51 @@ void kitapAra(kitapBilgileri *kitaplik){
 	printf("Maalesef...Aradiginiz kitap kutuphanemizde bulunmuyor.\n");
 }
 
+void kitapEkle(kitapBilgileri *kitaplik){
+	int sayfaSayisi,i;
+	char kitapAdi[30],yayinEvi[30],yazarAdi[30],yazarSoyadi[30];
+	
+	printf("Lutfen kitap adi giriniz:");
+	scanf("%s",&kitapAdi);
+	printf("Lutfen kitap yayinevi bilgisini giriniz: ");
+	scanf("%s",&yayinEvi);
+	printf("Lutfen kitabin yazar adini ve soyadini sirasiyla giriniz:");
+	scanf("%s",&yazarAdi,&yazarSoyadi);
+	printf("Lutfen kitabin sayfa sayisini giriniz:");
+	scanf("%d",&sayfaSayisi);
+	
+	for(i=0;i<MAX_KITAP_SAYISI;i++){
+		if(kitaplik[i].sayfaSayisi==0){
+			kitaplik[i].kitapAdi=(char)*malloc(sizeof(char)*(strlen(kitapAdi)+1));
+			kitaplik[i].yayinEvi=(char)*malloc(sizeof(char)*(strlen(yayinEvi)+1));
+			kitaplik[i].kitapYazarAdi=(char)*malloc(sizeof(char)*(strlen(YazarAdi)+1));
+			kitaplik[i].kitapYazarSoyadi=(char)*malloc(sizeof(char)*(strlen(YazarSoyadi)+1));
+			strcpy(kitaplik[i].kitapAdi,kitapAdi);
+			strcpy(kitaplik[i].kitapYazarAdi,yazarAdi);
+			strcpy(kitaplik[i].kitapYazarSoyadi,yazarSoyadi);
+			strcpy(kitaplik[i].yayinEvi,yayinEvi);
+			kitaplik[i].sayfaSayisi=sayfaSayisi;
+			break;
+		}	
+	}
+}
+
+void uyeleriGoruntule(kisiBilgileri *uyeListesi){
+	int i=0;
+	while(i<MAX_KISI_SAYISI && uyeListesi[i].kutuphaneID!=0){
+		printf("Uye Adi-Soyadi:%s %s\n",uyeListesi[i].kisiAdi,uyeListesi[i].kisiSoyadi);
+		printf("Uye ID Bilgisi:%d\n",uyeListesi[i].kutuphaneID);
+		if(uyeListesi[i].kisiYetkisi==1){
+			printf("Uye Durumu: Calisan\n");
+		}
+		else{
+			printf("Uye Durumu: Ogrenci\n");
+		}
+		printf("------------------------------------------------------------------------------");
+		i++;
+	}
+}
+
 int girisYap(kisiBilgileri* uyeListesi){
 	int ID,sifre,i;
 	printf("Lutfen kutuphane ID bilginizi giriniz:");
